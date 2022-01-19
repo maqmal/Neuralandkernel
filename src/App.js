@@ -5,13 +5,12 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import { Component } from 'react';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
-import SignIn from './SignIn/SignIn';
+import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
-import Clarifai from 'clarifai'
 
-// const app = new Clarifai.App({
-//   apiKey: ''
-// })
+import * as cocoSsd from '@tensorflow-models/coco-ssd';
+require('@tensorflow/tfjs-backend-cpu');
+require('@tensorflow/tfjs-backend-webgl');
 
 class App extends Component {
   constructor() {
@@ -29,16 +28,21 @@ class App extends Component {
 
   }
 
-  onSubmit = () => {
-    this.setState({ imageUrl: this.state.input })
+  onSubmit = async() => {
+    this.setState({ imageUrl: this.state.input });
+
+    const img = document.getElementById('img');
+
+    // Load the model.
+    const model = await cocoSsd.load();
+
+    // Classify the image.
+    const predictions = await model.detect(img);
+
+    console.log('Predictions: ');
+    console.log(predictions);
+
     console.log('Click!');
-    // app.models.predict('aaa03c23b3724a16a56b629203edc62c', `${this.state.imageUrl}`)
-    //   .then(
-    //     response => {
-    //       this.calculateFaceLocation(response)
-    //     }
-    //   )
-    //   .catch(err=>console.log(err))
   }
 
   onInputChange = (event) => {
