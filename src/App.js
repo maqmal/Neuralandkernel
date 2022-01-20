@@ -4,7 +4,7 @@ import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import { Component } from 'react';
-import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+import ObjectDetection from './components/ObjectDetection/ObjectDetection';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 
@@ -18,31 +18,47 @@ class App extends Component {
     this.state = {
       input: '',
       imageUrl: '',
-      box: {},
+      size: [],
       route: 'signin',
       isSignenIn: false
     }
   }
 
-  calculateFaceLocation = (boundingBox) => {
+  displayBox = (prediction, img) => {
+    const c = document.getElementById('canvas');
+    const context = c.getContext('2d');
 
+    context.clearRect(0, 0, c.width, c.height);
+    context.drawImage(img, 0, 0);
+    context.font = '10px Arial';
+
+    console.log('number of detections: ', prediction.length);
+    for (let i = 0; i < prediction.length; i++) {
+      context.beginPath();
+      context.rect(...prediction[i].bbox);
+      context.lineWidth = 1;
+      context.strokeStyle = 'blue';
+      context.fillStyle = 'blue';
+      context.stroke();
+      context.fillText(
+        ' ' + prediction[i].class, prediction[i].bbox[0],
+        prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
+    }
   }
 
-  onSubmit = async() => {
+
+  onSubmit = async () => {
     this.setState({ imageUrl: this.state.input });
 
     const img = document.getElementById('img');
-
-    // Load the model.
     const model = await cocoSsd.load();
 
-    // Classify the image.
     const predictions = await model.detect(img);
+    
+    const imgSize = [img.width, img.height]
+    this.setState({ size: imgSize })
 
-    console.log('Predictions: ');
-    console.log(predictions);
-
-    console.log('Click!');
+    this.displayBox(predictions, img);
   }
 
   onInputChange = (event) => {
@@ -67,8 +83,10 @@ class App extends Component {
           <div>
             <Logo />
             <Rank />
-            <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onSubmit} />
-            <FaceRecognition />
+            <ImageLinkForm
+              onInputChange={this.onInputChange}
+              onButtonSubmit={this.onSubmit} />
+            <ObjectDetection imageUrl={this.state.imageUrl} size={this.state.size} />
           </div>
           : (this.state.route === 'signin' ?
             <SignIn onRouteChange={this.onRouteChange} />
