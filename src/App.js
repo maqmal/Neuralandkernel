@@ -19,6 +19,7 @@ class App extends Component {
       input: '',
       imageUrl: '',
       size: [],
+      imgCanvas: '',
       route: 'signin',
       isSignenIn: false
     }
@@ -44,6 +45,8 @@ class App extends Component {
         ' ' + prediction[i].class, prediction[i].bbox[0],
         prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
     }
+    var imgCanvas = c.toDataURL(img.src);
+    return(this.setState({ imgCanvas: imgCanvas }));
   }
 
 
@@ -54,9 +57,9 @@ class App extends Component {
     const model = await cocoSsd.load();
 
     const predictions = await model.detect(img);
-    
-    const imgSize = [img.width, img.height]
-    this.setState({ size: imgSize })
+
+    const imgSize = [img.width, img.height];
+    this.setState({ size: imgSize });
 
     this.displayBox(predictions, img);
   }
@@ -86,7 +89,7 @@ class App extends Component {
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onSubmit} />
-            <ObjectDetection imageUrl={this.state.imageUrl} size={this.state.size} />
+            <ObjectDetection imageUrl={this.state.imageUrl} size={this.state.size} imgCanvas={this.state.imgCanvas}/>
           </div>
           : (this.state.route === 'signin' ?
             <SignIn onRouteChange={this.onRouteChange} />
