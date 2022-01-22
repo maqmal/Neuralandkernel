@@ -2,7 +2,6 @@ import React from "react";
 import ModalComponent from "./Modal";
 
 const ObjectDetection = ({ imageUrl, size, imgCanvas }) => {
-
     return (
         <div className="center ma2">
             <div className="absolute mt2">

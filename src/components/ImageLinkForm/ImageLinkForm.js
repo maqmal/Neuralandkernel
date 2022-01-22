@@ -1,6 +1,8 @@
 import React from "react";
 import './ImageLinkForm.css';
-const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
+import ObjectDetection from '../ObjectDetection/ObjectDetection';
+
+const ImageLinkForm = ({onInputChange, onButtonSubmit, imageUrl, size, imgCanvas}) => {
   return (
     <div>
       <p className="f3">
@@ -13,6 +15,7 @@ const ImageLinkForm = ({onInputChange, onButtonSubmit}) => {
           onClick={onButtonSubmit}>Detect</button>
         </div>
       </div>
+      <ObjectDetection imageUrl={imageUrl} size={size} imgCanvas={imgCanvas}/>
     </div>
   );
 }

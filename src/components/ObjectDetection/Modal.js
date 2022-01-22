@@ -16,13 +16,13 @@ const style = {
   p: 4,
 };
 
-export default function ModalComponent({imgCanvas}) {
+export default function ModalComponent({ imgCanvas }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
     <div>
-    <img src={imgCanvas} alt='' id="imgModal" crossOrigin='anonymous' onClick={handleOpen} style={{cursor:'pointer'}}></img>
+      <img src={imgCanvas} alt='' id="imgModal" crossOrigin='anonymous' onClick={handleOpen} style={{ cursor: 'pointer' }}></img>
       <Modal
         open={open}
         onClose={handleClose}
@@ -30,10 +30,12 @@ export default function ModalComponent({imgCanvas}) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Object Detection Result
-          </Typography>
-          <img src={imgCanvas} alt='' id="imgModal" crossOrigin='anonymous'></img>
+          <center>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Object Detection Result
+            </Typography>
+            <img src={imgCanvas} alt='' id="imgModal" crossOrigin='anonymous'></img>
+          </center>
         </Box>
       </Modal>
     </div>

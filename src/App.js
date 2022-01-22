@@ -1,10 +1,8 @@
 import './App.css';
 import Navigation from './components/Navigation/Navigation';
-import Logo from './components/Logo/Logo';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import { Component } from 'react';
-import ObjectDetection from './components/ObjectDetection/ObjectDetection';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 
@@ -45,6 +43,7 @@ class App extends Component {
         ' ' + prediction[i].class, prediction[i].bbox[0],
         prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
     }
+    img.crossOrigin = "anonymous";
     var imgCanvas = c.toDataURL(img.src);
     return(this.setState({ imgCanvas: imgCanvas }));
   }
@@ -84,12 +83,14 @@ class App extends Component {
         <Navigation onRouteChange={this.onRouteChange} isSignenIn={this.state.isSignenIn} theRoute={this.state.route} />
         {this.state.route === 'home' ?
           <div>
-            <Logo />
             <Rank />
             <ImageLinkForm
               onInputChange={this.onInputChange}
-              onButtonSubmit={this.onSubmit} />
-            <ObjectDetection imageUrl={this.state.imageUrl} size={this.state.size} imgCanvas={this.state.imgCanvas}/>
+              onButtonSubmit={this.onSubmit} 
+              imageUrl={this.state.imageUrl} 
+              size={this.state.size} 
+              imgCanvas={this.state.imgCanvas}/>
+            
           </div>
           : (this.state.route === 'signin' ?
             <SignIn onRouteChange={this.onRouteChange} />
