@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from '../Logo/Logo';
 
-const Navigation = ({ onRouteChange, isSignenIn, theRoute }) => {
+const Navigation = ({ onRouteChange, isSignenIn }) => {
     if (isSignenIn) {
         return (
             <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -10,19 +10,7 @@ const Navigation = ({ onRouteChange, isSignenIn, theRoute }) => {
             </nav>
         );
     } else {
-        if (theRoute === 'register') {
-            return (
-                <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <p className="f3 link dim black underline pa3 pointer" onClick={() => onRouteChange('signin')}>Sign In</p>
-                </nav>
-            )
-        } else {
-            return (
-                <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <p className="f3 link dim black underline pa3 pointer" onClick={() => onRouteChange('register')}>Register</p>
-                </nav>
-            )
-        }
+        return null;
     }
 }
 

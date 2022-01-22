@@ -43,9 +43,8 @@ class App extends Component {
         ' ' + prediction[i].class, prediction[i].bbox[0],
         prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
     }
-    img.crossOrigin = "anonymous";
     var imgCanvas = c.toDataURL(img.src);
-    return(this.setState({ imgCanvas: imgCanvas }));
+    return (this.setState({ imgCanvas: imgCanvas }));
   }
 
 
@@ -80,27 +79,30 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
-        <Navigation onRouteChange={this.onRouteChange} isSignenIn={this.state.isSignenIn} theRoute={this.state.route} />
+        <Navigation onRouteChange={this.onRouteChange} isSignenIn={this.state.isSignenIn} />
         {this.state.route === 'home' ?
           <div>
             <Rank />
             <ImageLinkForm
               onInputChange={this.onInputChange}
-              onButtonSubmit={this.onSubmit} 
-              imageUrl={this.state.imageUrl} 
-              size={this.state.size} 
-              imgCanvas={this.state.imgCanvas}/>
-            
+              onButtonSubmit={this.onSubmit}
+              imageUrl={this.state.imageUrl}
+              size={this.state.size}
+              imgCanvas={this.state.imgCanvas} />
           </div>
+          
           : (this.state.route === 'signin' ?
-            <SignIn onRouteChange={this.onRouteChange} />
-            : (this.state.route === 'signout' ?
-              <SignIn onRouteChange={this.onRouteChange} />
+          <div className='pt6'><SignIn onRouteChange={this.onRouteChange} /></div>
+              : (this.state.route === 'signout' ?
+              <div className='pt6'><SignIn onRouteChange={this.onRouteChange} /></div>
               :
-              <Register onRouteChange={this.onRouteChange} />
-            )
-          )}
-
+              <div className='pt6'><Register onRouteChange={this.onRouteChange} /></div>
+              )
+              )}
+              
+           
+              
+              
       </div>
     );
   }
