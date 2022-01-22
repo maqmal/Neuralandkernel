@@ -9,9 +9,9 @@ const ImageLinkForm = ({onInputChange, onButtonSubmit, imageUrl, size, imgCanvas
         {'This magic will detect object in a picture. Give it a try'}
       </p>
       <div className="center">
-        <div className="center pa4 br3 shadow-5 w-60 form">
+        <div className="center pa4 br4 shadow-5 w-90 form">
           <input className='f4 pa2 w-70' type='tex' onChange={onInputChange}/>
-          <button className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple"
+          <button className="w-30 grow f9 link ph3 pv2 dib white center"
           onClick={onButtonSubmit}>Detect</button>
         </div>
       </div>

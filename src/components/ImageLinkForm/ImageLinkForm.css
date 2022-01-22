@@ -1,13 +1,27 @@
 .form{
     background:
-    radial-gradient(black 15%, transparent 16%) 0 0,
-    radial-gradient(black 15%, transparent 16%) 8px 8px,
-    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
-    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-    background-color:#282828;
+    radial-gradient(rgb(159,185,229) 15%, transparent 16%) 0 0,
+    radial-gradient(rgb(159,185,229) 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(218,176,208,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(218,176,208,.1) 15%, transparent 20%) 8px 9px;
+    background-color: rgba( 255, 255, 255, 0.35 );
     background-size:16px 16px;
 }
-
 button{
+    background: rgba( 255, 255, 255, 0 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.1 );
+    backdrop-filter: blur( 14.5px );
+    -webkit-backdrop-filter: blur( 14.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
     cursor: pointer;
+}
+p{
+    color: black;
+}
+input{
+    background: rgba( 255, 255, 255, 0.05 );
+    backdrop-filter: blur( 14.5px );
+    -webkit-backdrop-filter: blur( 14.5px );
+    border-radius: 10px;
 }

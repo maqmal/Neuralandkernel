@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import './Modal.css'
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -19,9 +21,30 @@ export default function ModalComponent({ imgCanvas }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  function toggleClock() {
+    var myImg = document.getElementById('imgModal');
+    var displaySetting = myImg.style.display;
+    var imgButton = document.getElementById('imgButton');
+    if (displaySetting === 'block') {
+      myImg.style.display = 'none';
+      imgButton.innerHTML = 'Show clock';
+    }
+    else {
+      myImg.style.display = 'block';
+      imgButton.innerHTML = 'Hide clock';
+    }
+  }
+
   return (
     <div>
-      <img src={imgCanvas} alt='' id="imgModal" crossOrigin='anonymous' onClick={handleOpen} style={{ cursor: 'pointer' }}></img>
+      {/* <button onclick={toggleClock} id="imgButton">Show/Hide Image</button> */}
+      <div id="imgModal" className="div-wrapper">
+        <img src={imgCanvas} alt=''
+          crossOrigin='anonymous'
+          onClick={handleOpen}
+          style={{ cursor: 'pointer' }}></img>
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
@@ -33,7 +56,7 @@ export default function ModalComponent({ imgCanvas }) {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Object Detection Result
             </Typography>
-            <img src={imgCanvas} alt='' id="imgModal" crossOrigin='anonymous'></img>
+            <img src={imgCanvas} alt='' crossOrigin='anonymous'></img>
           </center>
         </Box>
       </Modal>

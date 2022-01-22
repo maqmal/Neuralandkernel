@@ -6,6 +6,8 @@ import { Component } from 'react';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 
+import ParticlesJS from './components/Particles/Particles';
+
 import * as cocoSsd from '@tensorflow-models/coco-ssd';
 require('@tensorflow/tfjs-backend-cpu');
 require('@tensorflow/tfjs-backend-webgl');
@@ -79,6 +81,7 @@ class App extends Component {
   render() {
     return (
       <div className='App'>
+        <ParticlesJS/>
         <Navigation onRouteChange={this.onRouteChange} isSignenIn={this.state.isSignenIn} />
         {this.state.route === 'home' ?
           <div>
