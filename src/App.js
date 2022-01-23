@@ -8,60 +8,38 @@ import Register from './components/Register/Register';
 
 import ParticlesJS from './components/Particles/Particles';
 
-import * as cocoSsd from '@tensorflow-models/coco-ssd';
-require('@tensorflow/tfjs-backend-cpu');
-require('@tensorflow/tfjs-backend-webgl');
-
 class App extends Component {
   constructor() {
     super();
     this.state = {
       input: '',
       imageUrl: '',
-      size: [],
-      imgCanvas: '',
       route: 'signin',
-      isSignenIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
 
-  displayBox = (prediction, img) => {
-    const c = document.getElementById('canvas');
-    const context = c.getContext('2d');
-
-    context.clearRect(0, 0, c.width, c.height);
-    context.drawImage(img, 0, 0);
-    context.font = '10px Arial';
-
-    console.log('number of detections: ', prediction.length);
-    for (let i = 0; i < prediction.length; i++) {
-      context.beginPath();
-      context.rect(...prediction[i].bbox);
-      context.lineWidth = 1;
-      context.strokeStyle = 'blue';
-      context.fillStyle = 'blue';
-      context.stroke();
-      context.fillText(
-        ' ' + prediction[i].class, prediction[i].bbox[0],
-        prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
-    }
-    var imgCanvas = c.toDataURL(img.src);
-    return (this.setState({ imgCanvas: imgCanvas }));
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+      }
+    })
   }
 
-
-  onSubmit = async () => {
+  onSubmit = () => {
     this.setState({ imageUrl: this.state.input });
-
-    const img = document.getElementById('img');
-    const model = await cocoSsd.load();
-
-    const predictions = await model.detect(img);
-
-    const imgSize = [img.width, img.height];
-    this.setState({ size: imgSize });
-
-    this.displayBox(predictions, img);
   }
 
   onInputChange = (event) => {
@@ -70,19 +48,19 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === 'signout') {
-      this.setState({ isSignenIn: false })
+      this.setState({ isSignedIn: false })
     } else if (route === 'home') {
-      this.setState({ isSignenIn: true })
+      this.setState({ isSignedIn: true })
     }
-    this.setState({ route: route })
-    return route
+    console.log(this.state.isSignedIn)
+    this.setState({ route: route });
   }
 
   render() {
     return (
-      <div className='App'>
-        <ParticlesJS/>
-        <Navigation onRouteChange={this.onRouteChange} isSignenIn={this.state.isSignenIn} />
+      <div className='App' crossOrigin="anonymous">
+        <ParticlesJS />
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn} />
         {this.state.route === 'home' ?
           <div>
             <Rank />
@@ -90,22 +68,17 @@ class App extends Component {
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onSubmit}
               imageUrl={this.state.imageUrl}
-              size={this.state.size}
-              imgCanvas={this.state.imgCanvas} />
+              crossOrigin="anonymous" />
           </div>
-          
+
           : (this.state.route === 'signin' ?
-          <div className='pt6'><SignIn onRouteChange={this.onRouteChange} /></div>
-              : (this.state.route === 'signout' ?
+            <div className='pt6'><SignIn onRouteChange={this.onRouteChange} /></div>
+            : (this.state.route === 'signout' ?
               <div className='pt6'><SignIn onRouteChange={this.onRouteChange} /></div>
               :
-              <div className='pt6'><Register onRouteChange={this.onRouteChange} /></div>
-              )
-              )}
-              
-           
-              
-              
+              <div className='pt6'><Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} /></div>
+            )
+          )}
       </div>
     );
   }

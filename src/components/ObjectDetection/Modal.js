@@ -22,23 +22,8 @@ export default function ModalComponent({ imgCanvas }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  function toggleClock() {
-    var myImg = document.getElementById('imgModal');
-    var displaySetting = myImg.style.display;
-    var imgButton = document.getElementById('imgButton');
-    if (displaySetting === 'block') {
-      myImg.style.display = 'none';
-      imgButton.innerHTML = 'Show clock';
-    }
-    else {
-      myImg.style.display = 'block';
-      imgButton.innerHTML = 'Hide clock';
-    }
-  }
-
   return (
     <div>
-      {/* <button onclick={toggleClock} id="imgButton">Show/Hide Image</button> */}
       <div id="imgModal" className="div-wrapper">
         <img src={imgCanvas} alt=''
           crossOrigin='anonymous'

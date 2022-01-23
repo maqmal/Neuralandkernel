@@ -1,8 +1,8 @@
 import React from "react";
 import Logo from '../Logo/Logo';
 
-const Navigation = ({ onRouteChange, isSignenIn }) => {
-    if (isSignenIn) {
+const Navigation = ({ onRouteChange, isSignedIn }) => {
+    if (isSignedIn) {
         return (
             <nav style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Logo />
