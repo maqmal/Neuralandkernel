@@ -30,6 +30,20 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit, imageUrl }) => {
     })
   }
 
+  const uploadUrl = async (e) => {
+    e.preventDefault()
+    const response = await fetch('http://localhost:3001/api/classify-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url:imageUrl
+        })
+    })
+    const data = await response.json()
+
+    setPredictions(data)
+  }
+
   return (
     <div>
       <p className="f3">
@@ -40,6 +54,11 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit, imageUrl }) => {
           <form onSubmit={uploadImage}>
             <input type="file" accept="image/*" capture="camera" ref={fileRef} />
             {/* <input className='f4 pa2 w-70' type='tex' onChange={onInputChange} /> */}
+            <button className="w-30 grow f9 link ph3 pv2 dib white center"
+              onClick={onButtonSubmit} style={{ color: 'black' }} type="send">Detect</button>
+          </form>
+          <form onSubmit={uploadUrl}>
+            <input className='f4 pa2 w-70' type='tex' onChange={onInputChange} />
             <button className="w-30 grow f9 link ph3 pv2 dib white center"
               onClick={onButtonSubmit} style={{ color: 'black' }} type="send">Detect</button>
           </form>
