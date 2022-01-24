@@ -1,9 +1,9 @@
 import React from "react";
 import './ImageLinkForm.css';
-// import ObjectDetection from '../ObjectDetection/ObjectDetection';
 
 const ImageLinkForm = ({ onInputChange, onButtonSubmit, imageUrl }) => {
   const [predictions, setPredictions] = React.useState([])
+
   const fileRef = React.createRef()
 
   const toBase64 = (file) => new Promise((resolve, reject) => {
@@ -33,11 +33,11 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit, imageUrl }) => {
   const uploadUrl = async (e) => {
     e.preventDefault()
     const response = await fetch('http://localhost:3001/api/classify-url', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          url:imageUrl
-        })
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url: imageUrl
+      })
     })
     const data = await response.json()
 
@@ -52,12 +52,15 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit, imageUrl }) => {
       <div className="center">
         <div className="center pa4 br4 shadow-5 w-90 form">
           <form onSubmit={uploadImage}>
+            <h4>Upload your Image!</h4><br />
             <input type="file" accept="image/*" capture="camera" ref={fileRef} />
-            {/* <input className='f4 pa2 w-70' type='tex' onChange={onInputChange} /> */}
             <button className="w-30 grow f9 link ph3 pv2 dib white center"
               onClick={onButtonSubmit} style={{ color: 'black' }} type="send">Detect</button>
           </form>
+          OR
           <form onSubmit={uploadUrl}>
+
+            <h4>Copy image URL!</h4><br />
             <input className='f4 pa2 w-70' type='tex' onChange={onInputChange} />
             <button className="w-30 grow f9 link ph3 pv2 dib white center"
               onClick={onButtonSubmit} style={{ color: 'black' }} type="send">Detect</button>
@@ -68,8 +71,8 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit, imageUrl }) => {
         {predictions.map(prediction =>
           <p key={prediction.probability}>{`${prediction.className}: ${prediction.probability}`}</p>)
         }
+        {/* <ObjectDetection imageUrl={imageUrl}/> */}
       </code>
-      {/* <ObjectDetection imageUrl={imageUrl}/> */}
     </div>
   );
 }
