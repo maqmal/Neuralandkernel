@@ -1,13 +1,25 @@
+
 .form{
-    background:
-    radial-gradient(rgb(159,185,229) 15%, transparent 16%) 0 0,
-    radial-gradient(rgb(159,185,229) 15%, transparent 16%) 8px 8px,
-    radial-gradient(rgba(218,176,208,.1) 15%, transparent 20%) 0 1px,
-    radial-gradient(rgba(218,176,208,.1) 15%, transparent 20%) 8px 9px;
-    background-color: rgba( 255, 255, 255, 0.35 );
-    background-size:16px 16px;
+    background: rgba( 255, 255, 255, 0.2 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 3px );
+    -webkit-backdrop-filter: blur( 3px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
-button{
+.button-url{
+    background: rgba( 255, 255, 255, 0 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.1 );
+    backdrop-filter: blur( 14.5px );
+    -webkit-backdrop-filter: blur( 14.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    cursor: pointer;
+}
+.or{
+    padding-right: 90px;
+}
+.button-img{
     background: rgba( 255, 255, 255, 0 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.1 );
     backdrop-filter: blur( 14.5px );
@@ -19,7 +31,7 @@ button{
 p{
     color: black;
 }
-input{
+.input-url{
     background: rgba( 255, 255, 255, 0.05 );
     backdrop-filter: blur( 14.5px );
     -webkit-backdrop-filter: blur( 14.5px );

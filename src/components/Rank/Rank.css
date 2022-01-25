@@ -1,0 +1,6 @@
+.rank-parent{
+    margin-top: -50px;
+}
+p.rank span{
+    border-bottom: 2px solid rgba( 255, 255, 255, 0.18 );
+}
