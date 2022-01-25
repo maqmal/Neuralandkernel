@@ -22,7 +22,8 @@ class App extends Component {
         email: '',
         entries: 0,
         joined: ''
-      }
+      },
+      buttonId: ''
     }
   }
 
@@ -38,8 +39,11 @@ class App extends Component {
     })
   }
 
-  onSubmit = () => {
-    this.setState({ imageUrl: this.state.input });
+  onSubmit = (event) => {
+    this.setState({ 
+      buttonId: event.target.id,
+      imageUrl: this.state.input
+     });
   }
 
   onEntriesChange = () => {
@@ -68,7 +72,6 @@ class App extends Component {
     } else if (route === 'home') {
       this.setState({ isSignedIn: true })
     }
-    console.log(this.state.isSignedIn)
     this.setState({ route: route });
   }
 
@@ -85,7 +88,8 @@ class App extends Component {
               onButtonSubmit={this.onSubmit}
               imageUrl={this.state.imageUrl}
               onEntriesChange={this.onEntriesChange}
-              crossOrigin="anonymous" />
+              buttonClicked={this.state.buttonId}
+              />
           </div>
 
           : (this.state.route === 'signin' ?

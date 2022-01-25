@@ -63,7 +63,7 @@ const ParticlesJS = () => {
                     },
                     "move": {
                         "enable": true,
-                        "speed": 0.2,
+                        "speed": 0.3,
                         "direction": "none",
                         "random": false,
                         "straight": false,
