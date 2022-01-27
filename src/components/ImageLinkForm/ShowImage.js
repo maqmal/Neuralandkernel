@@ -1,15 +1,15 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
+import './ShowImage.css';
 
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 700,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -36,25 +36,30 @@ const ShowImage = ({ image, prediction }) => {
     } else {
         imgStyle = {
             cursor: 'pointer',
-            paddingBottom: '20px'
         }
     }
-
 
     return (
         <div>
             <center>
                 {prediction === '' ? <p><CircularProgress /></p> :
-                    prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
-                        prediction.map(data =>
-                            <div>
-                                <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>
-                            </div>
-                        )
+                    prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> : prediction.length <= 5 ? prediction.map(data =>
+                        <span key={data.score} style={{ fontSize: '2vh' }}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</span>)
+                        :
+                        <div>
+                            <p>Found {prediction.length} objects!</p>
+                        </div>
                 }
-                <img src={image} alt='' onClick={handleOpen}
-                    style={imgStyle}
-                    width={'400vh'} height={'auto'} />
+                <div className='image-container'>
+                    <img src={image} alt='' onClick={handleOpen} style={imgStyle} width={'800px'} />
+                    {prediction === '' ? '' :
+                        prediction === 'not found' ? '' :
+                            prediction.map(data =>
+                                <div key={data.score} className='bounding-box'
+                                    style={{ top: data.bbox[1], right: data.bbox[0], bottom: data.bbox[1], left: data.bbox[0] }} onClick={handleOpen} >
+                                </div>)
+                    }
+                </div>
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -63,13 +68,13 @@ const ShowImage = ({ image, prediction }) => {
                 >
                     <Box sx={style}>
                         <center>
-                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                            <div style={{ display: 'flex' }}>
                                 {prediction === '' ? <p><CircularProgress /></p> :
                                     prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
                                         prediction.map(data =>
-                                            <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>)
+                                            <p key={data.score} style={{ fontSize: '2vh' }}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>)
                                 }
-                            </Typography>
+                            </div>
                             <img src={image} alt='' />
                         </center>
                     </Box>

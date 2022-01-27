@@ -78,8 +78,9 @@ class ImageLinkForm extends React.Component {
     return (
       <div>
         <p className="f3">
-          {'This magic will detect object in a picture. Give it a try'}
+          This magic will detect object in a picture. Give it a try!
         </p>
+
         <div className="center">
           <div className="center br4 shadow-5 w-90 form">
             <form onSubmit={this.uploadImage}>
@@ -90,6 +91,7 @@ class ImageLinkForm extends React.Component {
                 ref={this.state.fileRef}
                 className="input-img"
                 onChange={this.onChangeImagePreview}
+                required
               />
               <button
                 className="w-30 grow f9 link ph3 pv2 dib white center button-img"
@@ -100,16 +102,13 @@ class ImageLinkForm extends React.Component {
               >Detect</button>
             </form>
 
-
-            <h4 className="or">OR</h4>
-
-
-            <form onSubmit={this.uploadUrl}>
+            <form onSubmit={this.uploadUrl} className="form-url">
               <h4>Copy image URL!</h4><br />
               <input
                 className='f4 pa2 w-70 input-url'
                 type='text'
                 onChange={this.props.onInputChange}
+                required
               />
               <button
                 className="w-30 grow f9 link ph3 pv2 dib white center button-url"
@@ -121,6 +120,7 @@ class ImageLinkForm extends React.Component {
             </form>
           </div>
         </div>
+      
         {this.props.buttonClicked === 'url-id' ? <ShowImage image={this.props.imageUrl} prediction={this.state.predictions} />
           : <ShowImage image={this.state.file} prediction={this.state.predictions} />}
       </div>
