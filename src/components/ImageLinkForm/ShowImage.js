@@ -25,6 +25,22 @@ const ShowImage = ({ image, prediction }) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    let imgStyle;
+    console.log(prediction)
+    if (prediction.length === 0 || prediction === '') {
+        imgStyle = {
+            cursor: 'pointer',
+            paddingBottom: '20px',
+            display: 'none'
+        }
+    } else {
+        imgStyle = {
+            cursor: 'pointer',
+            paddingBottom: '20px'
+        }
+    }
+
+
     return (
         <div>
             <center>
@@ -37,8 +53,8 @@ const ShowImage = ({ image, prediction }) => {
                         )
                 }
                 <img src={image} alt='' onClick={handleOpen}
-                    style={{ cursor: 'pointer' }}
-                    width={'330px'} height={'auto'} />
+                    style={imgStyle}
+                    width={'400vh'} height={'auto'} />
                 <Modal
                     open={open}
                     onClose={handleClose}
