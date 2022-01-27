@@ -27,14 +27,29 @@ const ShowImage = ({ image, prediction }) => {
 
     return (
         <div>
-            {prediction === '' ? <p><CircularProgress /></p> :
-                prediction === 'No object found. Sorry :(' ? <p>{prediction}</p> :
+            {prediction === '' ?
+                <div>
+                    <p><CircularProgress /></p>
+                    <img src={image} alt='' onClick={handleOpen}
+                        style={{ cursor: 'pointer', paddingTop: '20px', paddingBottom: '40px' }}
+                        width={'330px'} height={'330px'} />
+                </div> :
+                prediction === 'not found' ?
+                    <div>
+                        <p>No object detected. Sorry :(</p>
+                        <img src={image} alt='' onClick={handleOpen}
+                            style={{ cursor: 'pointer', paddingTop: '20px', paddingBottom: '40px' }}
+                            width={'330px'} height={'330px'} />
+                    </div> :
                     prediction.map(data =>
-                        <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>)
+                        <div>
+                            <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>
+                            <img src={image} alt='' onClick={handleOpen}
+                                style={{ cursor: 'pointer', paddingTop: '20px', paddingBottom: '40px' }}
+                                width={'330px'} height={'330px'} />
+                        </div>
+                    )
             }
-            <img src={image} alt='' onClick={handleOpen}
-                style={{ cursor: 'pointer', paddingTop: '20px', paddingBottom: '40px' }}
-                width={'330px'} height={'330px'} />
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -45,7 +60,7 @@ const ShowImage = ({ image, prediction }) => {
                     <center>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
                             {prediction === '' ? <p><CircularProgress /></p> :
-                                prediction === 'No object found. Sorry :(' ? <p>{prediction}</p> :
+                                prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
                                     prediction.map(data =>
                                         <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>)
                             }
