@@ -27,48 +27,38 @@ const ShowImage = ({ image, prediction }) => {
 
     return (
         <div>
-            {prediction === '' ?
-                <div>
-                    <p><CircularProgress /></p>
-                    <img src={image} alt='' onClick={handleOpen}
-                        style={{ cursor: 'pointer', paddingTop: '20px', paddingBottom: '40px' }}
-                        width={'330px'} height={'330px'} />
-                </div> :
-                prediction === 'not found' ?
-                    <div>
-                        <p>No object detected. Sorry :(</p>
-                        <img src={image} alt='' onClick={handleOpen}
-                            style={{ cursor: 'pointer', paddingTop: '20px', paddingBottom: '40px' }}
-                            width={'330px'} height={'330px'} />
-                    </div> :
-                    prediction.map(data =>
-                        <div>
-                            <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>
-                            <img src={image} alt='' onClick={handleOpen}
-                                style={{ cursor: 'pointer', paddingTop: '20px', paddingBottom: '40px' }}
-                                width={'330px'} height={'330px'} />
-                        </div>
-                    )
-            }
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <center>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            {prediction === '' ? <p><CircularProgress /></p> :
-                                prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
-                                    prediction.map(data =>
-                                        <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>)
-                            }
-                        </Typography>
-                        <img src={image} alt='' />
-                    </center>
-                </Box>
-            </Modal>
+            <center>
+                {prediction === '' ? <p><CircularProgress /></p> :
+                    prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
+                        prediction.map(data =>
+                            <div>
+                                <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>
+                            </div>
+                        )
+                }
+                <img src={image} alt='' onClick={handleOpen}
+                    style={{ cursor: 'pointer' }}
+                    width={'330px'} height={'auto'} />
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={style}>
+                        <center>
+                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                {prediction === '' ? <p><CircularProgress /></p> :
+                                    prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
+                                        prediction.map(data =>
+                                            <p key={data.score}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>)
+                                }
+                            </Typography>
+                            <img src={image} alt='' />
+                        </center>
+                    </Box>
+                </Modal>
+            </center>
         </div>
     );
 }
