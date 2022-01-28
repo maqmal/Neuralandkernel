@@ -6,9 +6,9 @@ class ImageLinkForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      predictions: [],
+      predictions: '',
       fileRef: React.createRef(),
-      file: null
+      file: ''
     }
     this.onChangeImagePreview = this.onChangeImagePreview.bind(this)
   }
@@ -69,7 +69,6 @@ class ImageLinkForm extends React.Component {
   }
 
   onChangeImagePreview(event) {
-    console.log(this.state.file)
     this.setState({
       file: URL.createObjectURL(event.target.files[0])
     })
@@ -121,9 +120,15 @@ class ImageLinkForm extends React.Component {
             </form>
           </div>
         </div>
-      
-        {this.props.buttonClicked === 'url-id' ? <ShowImage image={this.props.imageUrl} prediction={this.state.predictions} />
-          : <ShowImage image={this.state.file} prediction={this.state.predictions} />}
+
+        {this.props.buttonClicked === 'url-id' ?
+          <ShowImage image={this.props.imageUrl} prediction={this.state.predictions} /> :
+          this.props.buttonClicked === 'upload-id' ?
+            <ShowImage image={this.state.file} prediction={this.state.predictions} /> :
+            ''
+        }
+
+
       </div>
     );
   }

@@ -1,8 +1,8 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import './ShowImage.css';
+import React, { useEffect, useRef } from "react";
 
 const style = {
     position: 'absolute',
@@ -18,6 +18,7 @@ const style = {
 
 const ShowImage = ({ image, prediction }) => {
     const [open, setOpen] = React.useState(false);
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -25,55 +26,75 @@ const ShowImage = ({ image, prediction }) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    var size = ''
-    if (prediction.length === 0 || prediction === '') {
+    const myImg = useRef(null);
 
-    } else {
-        const img = document.getElementById('img');
+    useEffect(() => {
+        const img = myImg.current;
         img.src = image;
-        const c = document.getElementById('canvas');
+        var c = document.createElement("canvas");
+        c.width = img.width
+        c.height = img.height
+        c.style.width = '400px'
+        c.style.height = 'auto'
+        c.style.cursor = 'pointer'
+        c.id = "sketchpad";
         const context = c.getContext('2d');
         context.clearRect(0, 0, c.width, c.height);
         context.drawImage(img, 0, 0);
         context.font = '10px Arial';
+        if (prediction === '' || prediction === 'not found' || prediction === 'link error') {
 
-        for (let i = 0; i < prediction.length; i++) {
-            context.beginPath();
-            context.rect(...prediction[i].bbox);
-            context.lineWidth = 1;
-            context.strokeStyle = 'green';
-            context.fillStyle = 'green';
-            context.stroke();
-            context.fillText(
-                prediction[i].score.toFixed(3) + ' ' + prediction[i].class, prediction[i].bbox[0],
-                prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
+        } else {
+            for (let i = 0; i < prediction.length; i++) {
+                context.beginPath();
+                context.rect(...prediction[i].bbox);
+                context.lineWidth = 1;
+                context.strokeStyle = 'green';
+                context.fillStyle = 'green';
+                context.stroke();
+                context.fillText(
+                    prediction[i].score.toFixed(3) + ' ' + prediction[i].class, prediction[i].bbox[0],
+                    prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
+            }
+
         }
-        size = [img.width, img.height]
-    }
+        c.onclick = handleOpen
+        const imgCanvas = document.getElementById('img-canvas')
+        imgCanvas.innerHTML = ''
+        imgCanvas.appendChild(c)
+    }, [image, prediction]);
+
+
+
 
     return (
         <div>
-            <center>
-                {prediction === '' ? <p><CircularProgress /></p> :
-                    prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
-                        prediction === 'link error' ? <p>{'Error retrieving image format'}</p> :
-                            prediction.length <= 5 ? prediction.map(data =>
+            {prediction === '' ? <p><CircularProgress /></p> :
+                prediction === 'not found' ?
+                    <div>
+                        <p>{'No object detected. Sorry :('}</p>
+                        <img src={image} alt='' width={400} />
+                    </div> :
+                    prediction === 'link error' ? <p>{'Error retrieving image format'}</p> :
+                        prediction.length <= 5 ?
+                            prediction.map(data =>
                                 <span key={data.score} style={{ fontSize: '2vh' }}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "% "}`}</span>)
-                                :
-                                <div>
-                                    <p>Found {prediction.length} objects!</p>
-                                </div>
-                }
-                <div className='image-container'>
-                    <img id="img" style={{ display: 'none' }} alt='' />
-                    <canvas id="canvas" width={size[0]} height={size[1]} onClick={handleOpen} style={{ cursor: 'pointer' }}></canvas>
-                </div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
+                            :
+                            <div>
+                                <p>Found {prediction.length} objects!</p>
+                            </div>
+            }
+            <img id="img" style={{ display: 'none' }} alt='' ref={myImg} />
+            <div id="img-canvas" className="image-container">
+                
+            </div>
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            ><center>
                     <Box sx={style}>
                         <div style={{ display: 'flex' }}>
                             {prediction === '' ? <p><CircularProgress /></p> :
@@ -85,8 +106,8 @@ const ShowImage = ({ image, prediction }) => {
                         </div>
                         <img src={image} alt='' />
                     </Box>
-                </Modal>
-            </center>
+                </center>
+            </Modal>
         </div>
     );
 }
