@@ -1,11 +1,11 @@
 .bounding-box {
     position: absolute;
-    box-shadow: 0 0 0 3px #149df2 inset;
+    box-shadow: 0 0 0 1.5px green inset;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     cursor: pointer;
-    color: red;
+    z-index: 11;
   }
 .image-container{
     position: absolute;
@@ -13,5 +13,4 @@
     right: 0; 
     margin-left: auto; 
     margin-right: auto; 
-    width: 800px;
 }

@@ -25,40 +25,48 @@ const ShowImage = ({ image, prediction }) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    let imgStyle;
-    console.log(prediction)
+    var size = ''
     if (prediction.length === 0 || prediction === '') {
-        imgStyle = {
-            cursor: 'pointer',
-            paddingBottom: '20px',
-            display: 'none'
-        }
+
     } else {
-        imgStyle = {
-            cursor: 'pointer',
+        const img = document.getElementById('img');
+        img.src = image;
+        const c = document.getElementById('canvas');
+        const context = c.getContext('2d');
+        context.clearRect(0, 0, c.width, c.height);
+        context.drawImage(img, 0, 0);
+        context.font = '10px Arial';
+
+        for (let i = 0; i < prediction.length; i++) {
+            context.beginPath();
+            context.rect(...prediction[i].bbox);
+            context.lineWidth = 1;
+            context.strokeStyle = 'green';
+            context.fillStyle = 'green';
+            context.stroke();
+            context.fillText(
+                prediction[i].score.toFixed(3) + ' ' + prediction[i].class, prediction[i].bbox[0],
+                prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
         }
+        size = [img.width, img.height]
     }
 
     return (
         <div>
             <center>
                 {prediction === '' ? <p><CircularProgress /></p> :
-                    prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> : prediction.length <= 5 ? prediction.map(data =>
-                        <span key={data.score} style={{ fontSize: '2vh' }}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</span>)
-                        :
-                        <div>
-                            <p>Found {prediction.length} objects!</p>
-                        </div>
+                    prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
+                        prediction === 'link error' ? <p>{'Error retrieving image format'}</p> :
+                            prediction.length <= 5 ? prediction.map(data =>
+                                <span key={data.score} style={{ fontSize: '2vh' }}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "% "}`}</span>)
+                                :
+                                <div>
+                                    <p>Found {prediction.length} objects!</p>
+                                </div>
                 }
                 <div className='image-container'>
-                    <img src={image} alt='' onClick={handleOpen} style={imgStyle} width={'800px'} />
-                    {prediction === '' ? '' :
-                        prediction === 'not found' ? '' :
-                            prediction.map(data =>
-                                <div key={data.score} className='bounding-box'
-                                    style={{ top: data.bbox[1], right: data.bbox[0], bottom: data.bbox[1], left: data.bbox[0] }} onClick={handleOpen} >
-                                </div>)
-                    }
+                    <img id="img" style={{ display: 'none' }} alt='' />
+                    <canvas id="canvas" width={size[0]} height={size[1]} onClick={handleOpen} style={{ cursor: 'pointer' }}></canvas>
                 </div>
                 <Modal
                     open={open}
@@ -67,16 +75,15 @@ const ShowImage = ({ image, prediction }) => {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        <center>
-                            <div style={{ display: 'flex' }}>
-                                {prediction === '' ? <p><CircularProgress /></p> :
-                                    prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
+                        <div style={{ display: 'flex' }}>
+                            {prediction === '' ? <p><CircularProgress /></p> :
+                                prediction === 'not found' ? <p>{'No object detected. Sorry :('}</p> :
+                                    prediction === 'link error' ? <p>{'Error retrieving image format'}</p> :
                                         prediction.map(data =>
-                                            <p key={data.score} style={{ fontSize: '2vh' }}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}</p>)
-                                }
-                            </div>
-                            <img src={image} alt='' />
-                        </center>
+                                            <p key={data.score} style={{ fontSize: '2vh' }}>{`${capitalizeFirstLetter(data.class)}: ${parseFloat(data.score).toFixed(2) * 100 + "%"}`}&nbsp;</p>)
+                            }
+                        </div>
+                        <img src={image} alt='' />
                     </Box>
                 </Modal>
             </center>

@@ -69,6 +69,7 @@ class ImageLinkForm extends React.Component {
   }
 
   onChangeImagePreview(event) {
+    console.log(this.state.file)
     this.setState({
       file: URL.createObjectURL(event.target.files[0])
     })
