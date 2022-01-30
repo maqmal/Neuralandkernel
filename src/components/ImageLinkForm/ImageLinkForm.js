@@ -39,7 +39,9 @@ class ImageLinkForm extends React.Component {
             this.setState({
               predictions: data
             })
-            this.props.onEntriesChange()
+            if (data !== 'link error' && data !== 'not found') {
+              this.props.onEntriesChange()
+            }
           }
         })
     })
@@ -64,9 +66,7 @@ class ImageLinkForm extends React.Component {
             predictions: data
           })
         }
-
-        if (data !== 'link error') {
-          console.log(data)
+        if (data !== 'link error' && data !== 'not found') {
           this.props.onEntriesChange()
         }
       })
