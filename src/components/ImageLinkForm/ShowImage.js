@@ -41,19 +41,19 @@ const ShowImage = ({ image, prediction }) => {
         const context = c.getContext('2d');
         context.clearRect(0, 0, c.width, c.height);
         context.drawImage(img, 0, 0);
-        context.font = '10px Arial';
+        context.font = '25px Arial';
         if (prediction === '' || prediction === 'not found' || prediction === 'link error') {
 
         } else {
             for (let i = 0; i < prediction.length; i++) {
                 context.beginPath();
                 context.rect(...prediction[i].bbox);
-                context.lineWidth = 1;
+                context.lineWidth = 4;
                 context.strokeStyle = 'green';
-                context.fillStyle = 'green';
+                context.fillStyle = 'blue';
                 context.stroke();
                 context.fillText(
-                    prediction[i].score.toFixed(3) + ' ' + prediction[i].class, prediction[i].bbox[0],
+                    prediction[i].score.toFixed(3) + ' ' + capitalizeFirstLetter(prediction[i].class), prediction[i].bbox[0],
                     prediction[i].bbox[1] > 10 ? prediction[i].bbox[1] - 5 : 10);
             }
 
@@ -73,7 +73,6 @@ const ShowImage = ({ image, prediction }) => {
                 prediction === 'not found' ?
                     <div>
                         <p>{'No object detected. Sorry :('}</p>
-                        <img src={image} alt='' width={400} />
                     </div> :
                     prediction === 'link error' ? <p>{'Error retrieving image format'}</p> :
                         prediction.length <= 5 ?

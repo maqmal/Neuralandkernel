@@ -63,6 +63,10 @@ class ImageLinkForm extends React.Component {
           this.setState({
             predictions: data
           })
+        }
+
+        if (data !== 'link error') {
+          console.log(data)
           this.props.onEntriesChange()
         }
       })
