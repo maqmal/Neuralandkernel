@@ -12,7 +12,7 @@ class SignIn extends React.Component {
     onEmailChange = (event) => {
         this.setState({ signedInEmail: event.target.value });
     };
-    
+
     onPassChange = (event) => {
         this.setState({ signedInPassword: event.target.value });
     };
@@ -29,7 +29,7 @@ class SignIn extends React.Component {
         })
             .then(response => response.json())
             .then(data => {
-                if (data !== 'no such user') {
+                if (data.id) {
                     this.props.loadUser(data);
                     this.props.onRouteChange('home');
                 }
