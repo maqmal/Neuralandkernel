@@ -46,20 +46,22 @@ class SignIn extends React.Component {
                             <div className="mt3">
                                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                                 <input
-                                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                                    className="pa2 input-reset ba bg-transparent hover-bg-blue hover-white"
                                     type="email"
                                     name="email-address"
                                     id="email-address"
-                                    onChange={this.onEmailChange} />
+                                    onChange={this.onEmailChange}
+                                    required />
                             </div>
                             <div className="mv3">
                                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                                 <input
-                                    className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                                    className="b pa2 input-reset ba bg-transparent hover-bg-blue hover-white w-100"
                                     type="password"
                                     name="password"
                                     id="password"
-                                    onChange={this.onPassChange} />
+                                    onChange={this.onPassChange}
+                                    required />
                             </div>
                         </fieldset>
                         <div className="">
@@ -69,10 +71,10 @@ class SignIn extends React.Component {
                                 onClick={this.onSubmitSignIn}
                             />
                         </div>
-                        <div className="lh-copy mt3">
-                            <a href="#0" className="f6 link dim black db" style={{ cursor: 'pointer' }} onClick={() => { onRouteChange('register') }}>Register</a>
-                        </div>
                     </form>
+                    <div className="lh-copy mt3">
+                        <a href="#0" className="f6 link dim black db" style={{ cursor: 'pointer' }} onClick={() => { onRouteChange('register') }}>Register</a>
+                    </div>
                 </main>
             </article>
         )

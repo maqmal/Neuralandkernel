@@ -8,23 +8,25 @@ import Register from './components/Register/Register';
 
 import ParticlesJS from './components/Particles/Particles';
 
+const initialState = {
+  input: '',
+  imageUrl: '',
+  route: 'signin',
+  isSignedIn: false,
+  buttonId: '',
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
+
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imageUrl: '',
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      },
-      buttonId: ''
-    }
+    this.state = initialState;
   }
 
   loadUser = (data) => {
@@ -40,10 +42,10 @@ class App extends Component {
   }
 
   onSubmit = (event) => {
-    this.setState({ 
+    this.setState({
       buttonId: event.target.id,
       imageUrl: this.state.input
-     });
+    });
   }
 
   onEntriesChange = () => {
@@ -58,6 +60,7 @@ class App extends Component {
       .then(data => {
         this.setState(Object.assign(this.state.user, { entries: data }))
       })
+      .catch(console.log)
   }
 
   onInputChange = (event) => {
@@ -68,11 +71,11 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if (route === 'signout') {
-      this.setState({ isSignedIn: false })
+      this.setState({ initialState })
+      window.location.reload();
     } else if (route === 'home') {
       this.setState({ isSignedIn: true })
     }
-    console.log(route)
     this.setState({ route: route });
   }
 
@@ -80,9 +83,9 @@ class App extends Component {
     return (
       <div className='App' crossOrigin="anonymous">
         <ParticlesJS />
-        <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn} />
         {this.state.route === 'home' ?
           <div>
+            <Navigation onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn} />
             <Rank username={this.state.user.name} rank={this.state.user.entries} />
             <ImageLinkForm
               onInputChange={this.onInputChange}
@@ -90,7 +93,7 @@ class App extends Component {
               imageUrl={this.state.imageUrl}
               onEntriesChange={this.onEntriesChange}
               buttonClicked={this.state.buttonId}
-              />
+            />
           </div>
 
           : (this.state.route === 'signin' ?

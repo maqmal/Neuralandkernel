@@ -22,7 +22,7 @@ class Register extends React.Component {
         this.setState({ password: event.target.value });
     };
 
-    onSubmitRegister = (event)=>{
+    onSubmitRegister = (event) => {
         event.preventDefault();
         fetch("http://localhost:3001/register", {
             method: 'post',
@@ -33,13 +33,13 @@ class Register extends React.Component {
                 password: this.state.password
             })
         })
-        .then(response=>response.json())
-        .then(data=>{
-            if (data!=='error register'){
-                this.props.loadUser(data);
-                this.props.onRouteChange('home');
-            }
-        })
+            .then(response => response.json())
+            .then(data => {
+                if (data !== 'error register') {
+                    this.props.loadUser(data);
+                    this.props.onRouteChange('home');
+                }
+            })
     }
 
     render() {
@@ -52,33 +52,33 @@ class Register extends React.Component {
                             <legend className="f1 fw6 ph0 mh0">Register</legend>
                             <div className="mt3">
                                 <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
-                                <input 
-                                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                type="text" 
-                                name="name" 
-                                id="name" 
-                                onChange={this.onNameChange}
-                                />
+                                <input
+                                    className="pa2 input-reset ba bg-transparent hover-bg-blue hover-white w-100"
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    onChange={this.onNameChange}
+                                    required />
                             </div>
                             <div className="mt3">
                                 <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
-                                <input 
-                                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                type="email" 
-                                name="email-address" 
-                                id="email-address" 
-                                onChange={this.onEmailChange}
-                                />
+                                <input
+                                    className="pa2 input-reset ba bg-transparent hover-bg-blue hover-white w-100"
+                                    type="email"
+                                    name="email-address"
+                                    id="email-address"
+                                    onChange={this.onEmailChange}
+                                    required />
                             </div>
                             <div className="mv3">
                                 <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
-                                <input 
-                                className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                                type="password" 
-                                name="password"
-                                id="password"
-                                onChange={this.onPassChange}
-                                 />
+                                <input
+                                    className="b pa2 input-reset ba bg-transparent hover-bg-blue hover-white w-100"
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    onChange={this.onPassChange}
+                                    required />
                             </div>
                         </fieldset>
                         <div className="">
@@ -87,11 +87,11 @@ class Register extends React.Component {
                                 value="Register"
                                 onClick={this.onSubmitRegister} />
                         </div>
-
-                        <div className="lh-copy mt3">
-                            <a href="#0" className="f6 link dim black db" style={{ cursor: 'pointer' }} onClick={() => { onRouteChange('signin') }}>Sign In</a>
-                        </div>
                     </form>
+
+                    <div className="lh-copy mt3">
+                        <a href="#0" className="f6 link dim black db" style={{ cursor: 'pointer' }} onClick={() => { onRouteChange('signin') }}>Sign In</a>
+                    </div>
                 </main>
             </article>
         )

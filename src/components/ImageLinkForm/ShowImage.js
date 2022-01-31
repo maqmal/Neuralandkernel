@@ -84,9 +84,7 @@ const ShowImage = ({ image, prediction }) => {
                             </div>
             }
             <img id="img" style={{ display: 'none' }} alt='' ref={myImg} />
-            <div id="img-canvas" className="image-container">
-                
-            </div>
+            <div id="img-canvas" className="image-container"></div>
 
             <Modal
                 open={open}
